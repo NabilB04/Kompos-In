@@ -53,20 +53,7 @@ class RegisterController extends Controller
             'password'  => ['required', 'string', 'min:8', 'confirmed'],
             'phone'     => ['required', 'string', 'min:11', 'max:13'],
             'address'   => ['required', 'string', 'max:255'],
-        ], [
-            'name.required' => 'Nama wajib diisi.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah digunakan.',
-            'password.required' => 'Password wajib diisi.',
-            'password.min' => 'Password minimal 8 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
-            'phone.required' => 'Nomor telepon wajib diisi.',
-            'phone.min' => 'Nomor telepon minimal 11 digit.',
-            'phone.max' => 'Nomor telepon maksimal 13 digit.',
-            'address.required' => 'Alamat wajib diisi.',
         ]);
-
     }
 
     /**

@@ -16,11 +16,11 @@
           <div id="dropdownMenu" class="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded shadow-md hidden z-50">
             <div class="py-1 border-b">
               <div class="px-4 py-2 text-xs text-gray-500 uppercase">Pengaturan</div>
-              <button onclick="openAccountModal()" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-100">Pengaturan Akun</button>
+              <button onclick="openAccountModal()" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-100">Profil</button>
             </div>
-            <form method="POST" action="{{ route('logout') }}" class="py-1">
-              @csrf
-              <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-green-100">Logout</button>
+            <form method="POST" action="{{ route('logout') }}" class="py-1" id="logoutForm">
+                @csrf
+                <button type="button" onclick="confirmLogout()" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-green-100">Logout</button>
             </form>
           </div>
         </div>
@@ -41,8 +41,31 @@
 
       <!-- Konten dinamis -->
       <div class="px-6 py-4 space-y-4" id="modalContent">
-        <button onclick="showUbahNama()" class="block w-full text-left px-4 py-2 rounded text-white">Ubah Nama</button>
-        <button onclick="showUbahPassword()" class="block w-full text-left px-4 py-2 rounded text-white">Ubah Password</button>
+        <div id="profilBladeContent" class="hidden">
+            @if(auth('pelanggan')->check())
+              <div class="space-y-4 text-sm">
+                <div>
+                  <span class="block text-gray-500">Nama Lengkap</span>
+                  <p class="font-medium">{{ auth('pelanggan')->user()->nama_lengkap }}</p>
+                </div>
+                <div>
+                  <span class="block text-gray-500">Email</span>
+                  <p class="font-medium">{{ auth('pelanggan')->user()->email }}</p>
+                </div>
+                <div>
+                  <span class="block text-gray-500">Nomor Telepon</span>
+                  <p class="font-medium">{{ auth('pelanggan')->user()->nomor_telepon }}</p>
+                </div>
+                <div>
+                  <span class="block text-gray-500">Alamat</span>
+                  <p class="font-medium whitespace-pre-line">{{ auth('pelanggan')->user()->alamat }}</p>
+                </div>
+              </div>
+            @else
+              <p class="text-gray-500">Data pengguna tidak tersedia.</p>
+            @endif
+          </div>
+
       </div>
 
       <div class="px-6 py-3 border-t text-right">
@@ -50,6 +73,19 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal Konfirmasi Logout -->
+<div id="logoutConfirmModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white w-full max-w-sm p-6 rounded shadow-lg">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">Konfirmasi Logout</h2>
+      <p class="text-gray-600 mb-6">Apakah Anda yakin ingin logout?</p>
+      <div class="flex justify-end space-x-2">
+        <button onclick="closeLogoutModal()" class="px-4 py-2 text-sm text-gray-500 hover:text-red-500">Batal</button>
+        <button onclick="submitLogout()" class="px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700">Ya, Logout</button>
+      </div>
+    </div>
+  </div>
+
 
 
   <script>
@@ -67,11 +103,14 @@
     }
 
     function resetModal() {
-      document.getElementById('modalTitle').innerText = 'Pengaturan Akun';
-      document.getElementById('modalContent').innerHTML = `
-        <button onclick="showUbahNama()" class="block w-full text-left px-4 py-2 rounded bg-stone-100 text-black hover:bg-stone-200">Ubah Nama</button>
-        <button onclick="showUbahPassword()" class="block w-full text-left px-4 py-2 rounded bg-stone-100 text-black hover:bg-stone-200">Ubah Password</button>
-      `;
+    document.getElementById('modalTitle').innerText = 'Profil Saya';
+
+    const content = document.getElementById('profilBladeContent').cloneNode(true);
+    content.classList.remove('hidden');
+
+    const modalContent = document.getElementById('modalContent');
+    modalContent.innerHTML = '';
+    modalContent.appendChild(content);
     }
 
     function showUbahNama() {
@@ -129,6 +168,19 @@
         </form>
     `;
     }
+
+    function confirmLogout() {
+    document.getElementById('logoutConfirmModal').classList.remove('hidden');
+    }
+
+    function closeLogoutModal() {
+    document.getElementById('logoutConfirmModal').classList.add('hidden');
+    }
+
+    function submitLogout() {
+    document.getElementById('logoutForm').submit();
+    }
+
   </script>
 
 

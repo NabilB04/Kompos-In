@@ -16,23 +16,32 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
+{
+    $credentials = $request->only('email', 'password');
 
-        // Coba sebagai admin
-        if (Auth::guard('admin')->attempt($credentials)) {
-            session(['role' => 'admin']);
-            return redirect()->route('admin.dashboard');
-        }
-
-        // Coba sebagai pelanggan
-        if (Auth::guard('pelanggan')->attempt($credentials)) {
-            session(['role' => 'pelanggan']);
-            return redirect()->route('pelanggan.landing');
-        }
-
-        return back()->withErrors(['email' => 'Email atau password salah.']);
+    if (Auth::guard('admin')->attempt($credentials)) {
+        session(['role' => 'admin']);
+        return redirect()->route('admin.manajemenPelanggan');
     }
+
+    $pelanggan = Pelanggan::where('email', $credentials['email'])->first();
+
+    if ($pelanggan) {
+        if (Hash::check($credentials['password'], $pelanggan->password)) {
+            if ($pelanggan->status_id != 1) {
+                return back()->withErrors(['email' => 'Akun Anda belum berlangganan.']);
+            }
+
+            if (Auth::guard('pelanggan')->attempt($credentials)) {
+                session(['role' => 'pelanggan']);
+                return redirect()->route('pelanggan.landing');
+            }
+        }
+    }
+
+    return back()->withErrors(['email' => 'Email atau password salah.']);
+}
+
 
        public function logout(Request $request)
     {

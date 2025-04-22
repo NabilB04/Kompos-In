@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('status_berlangganans', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('status_id'); // Ganti id dengan status_id sebagai primary key
+            $table->string('nama_status');  // Tambahkan kolom untuk nama status
             $table->timestamps();
         });
     }

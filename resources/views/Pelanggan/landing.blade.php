@@ -1,21 +1,24 @@
-@extends('layout.app')
+@extends('layout.Pelanggan.app')
 
 @section('content')
 
 <!-- Hero Section -->
-<section class="relative bg-gray-100">
-  <img src="https://placehold.co/1920x600" alt="Hero Image" class="w-full h-96 object-cover" />
-  <div class="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
-    <h1 class="text-4xl font-bold">KOMPOSIN</h1>
-    <p class="mt-4 max-w-xl">
-      Otomatisasi monitoring, pengawasan, dan optimalisasi rute pengumpulan sampah organik berbasis teknologi untuk lingkungan yang lebih bersih dan berkelanjutan
-    </p>
-    <div class="mt-6 space-x-4">
-      <a href="#" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">Langganan Sekarang</a>
-      <a href="#" class="bg-yellow-400 text-white px-6 py-3 rounded hover:bg-yellow-500">Pelajari Lebih Lanjut</a>
+<section class="relative h-[33rem] overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/img/background_komposin.png')] bg-repeat-x bg-[length:500px_auto] bg-center"></div>
+    <div class="absolute inset-0 bg-black/40"></div>
+    <!-- Konten Teks dan Tombol -->
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+      <h1 class="text-5xl font-extrabold text-white drop-shadow-md">KOMPOSIN</h1>
+      <p class="mt-4 max-w-2xl text-white text-lg">
+        Otomatisasi monitoring, penjadwalan, dan optimalisasi rute pengambilan sampah organik berbasis teknologi untuk lingkungan yang lebih bersih dan berkelanjutan
+      </p>
+      <div class="mt-6 space-x-4">
+        <a href="#" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 font-semibold">Daftar Sekarang</a>
+        <a href="#" class="bg-yellow-400 text-white px-6 py-3 rounded hover:bg-yellow-500 font-semibold">Pelajari Lebih Lanjut</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+
 
 <!-- Features Section -->
 <section class="py-16 bg-white">

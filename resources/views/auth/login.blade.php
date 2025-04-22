@@ -11,8 +11,8 @@
     <div class="flex w-full max-w-6xl mx-auto bg-white shadow-lg rounded-3xl overflow-hidden">
         <!-- Left side (Image) -->
         <div class="w-1/2 bg-[#f3f8ec] relative hidden md:block">
-            <img src="{{ asset('storage/image 1.png') }}" alt="Driver Illustration" class="absolute bottom-0 left-0 w-full max-h-[500px] object-contain">
-            <img src="{{ asset('storage/logo_komposin-removebg-preview.png') }}" alt="Logo" class="absolute top-5 left-5 w-36">
+            <img src="{{ asset('img/logo_scoopy.png') }}" alt="Driver Illustration" class="absolute bottom-0 left-0 w-full max-h-[500px] object-contain">
+            <img src="{{ asset('img/logo_komposin.png') }}" alt="Logo" class="absolute top-5 left-5 w-36">
         </div>
 
         <!-- Right side (Form) -->
@@ -37,7 +37,7 @@
                     text: '{{ session('success') }}',
                     confirmButtonColor: '#3085d6',
                 });
-            </script>   
+            </script>
         @endif
 
             <form method="POST" action="{{ route('login') }}" class="space-y-5">
@@ -67,7 +67,7 @@
                         </button>
                     </div>
                     <div class="text-right mt-2">
-                        {{-- <a href="{{ route('password.request') }}" class="text-sm text-green-700 hover:underline">Lupa Password</a> --}}
+                        <a href="{{ route('password.request') }}" class="text-sm text-green-700 hover:underline">Lupa Password?</a>
                     </div>
                 </div>
 
@@ -75,6 +75,18 @@
                     Sign in
                 </button>
             </form>
+
+        @if ($errors->has('email') && $errors->first('email') === 'Akun Anda belum berlangganan.')
+            <script>
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Tidak Bisa Login',
+                    text: '{{ $errors->first("email") }}',
+                    confirmButtonColor: '#3085d6',
+                });
+            </script>
+        @endif
+
         </div>
     </div>
 

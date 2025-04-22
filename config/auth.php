@@ -111,13 +111,13 @@ return [
     */
 
 'passwords' => [
-    'admins' => [
+    'admin' => [
         'provider' => 'admins',
         'table' => 'password_reset_tokens',
         'expire' => 60,
         'throttle' => 60,
     ],
-    'pelanggans' => [
+    'pelanggan' => [
         'provider' => 'pelanggans',
         'table' => 'password_reset_tokens',
         'expire' => 60,

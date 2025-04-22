@@ -15,6 +15,7 @@ class AdminController extends Controller
 
         $admin = auth('admin')->user();
         $admin->nama_lengkap = $request->nama_lengkap;
+        $admin->nomor_telepon = $request->nomor_telepon;
         $admin->save();
 
         return back()->with('success', 'Nama berhasil diperbarui.');

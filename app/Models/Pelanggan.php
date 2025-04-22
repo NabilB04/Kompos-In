@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 
 class Pelanggan extends Authenticatable implements MustVerifyEmail
 {
+    use Notifiable;
+
     protected $table = 'pelanggans';
     protected $primaryKey = 'pelanggan_id';
     public $timestamps = false;

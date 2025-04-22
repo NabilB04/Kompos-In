@@ -10,5 +10,5 @@ class StatusBerlangganan extends Model
     protected $primaryKey = 'status_id';
     public $timestamps = false;
 
-    protected $fillable = ['nama_status'];
+    protected $fillable = ['status_id', 'nama_status'];
 }

@@ -11,13 +11,13 @@
 
 <body class="font-sans bg-white">
 
-  @include('layout.components.navbar')
+  @include('layout.Pelanggan.components.navbar')
 
   <main>
     @yield('content')
   </main>
 
-  @include('layout.components.footer')
+  @include('layout.Pelanggan.components.footer')
 
   <script>
     function toggleDropdown() {

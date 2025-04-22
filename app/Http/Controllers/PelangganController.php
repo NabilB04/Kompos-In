@@ -53,6 +53,4 @@ class PelangganController extends Controller
         return back()->with('error', 'Gagal mengubah password.');
     }
 
-    // Tambah method lain sesuai kebutuhan
-    // public function profil() { ... }
 }
