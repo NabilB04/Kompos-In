@@ -7,31 +7,33 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function updateNama(Request $request)
+    public function updateProfileAndPassword(Request $request)
     {
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
+            'nomor_telepon' => 'required|string|digits_between:11,15',
+            'password' => 'nullable|string|min:8|confirmed',
+        ], [
+            'password.confirmed' => 'Konfirmasi password tidak sesuai',
+            'password.min' => 'Minimal karakter password 8',
+            'nomor_telepon.digits_between' => 'Nomor telepon kurang dari 11 digit',
+            'nomor_telepon.required' => 'Please fill out the field.',
         ]);
 
         $admin = auth('admin')->user();
         $admin->nama_lengkap = $request->nama_lengkap;
         $admin->nomor_telepon = $request->nomor_telepon;
+
+        if ($request->filled('password')) {
+            $admin->password = Hash::make($request->password);
+        }
+
         $admin->save();
 
-        return back()->with('success', 'Nama berhasil diperbarui.');
-    }
+        if ($request->ajax()) {
+            return response()->json(['success' => true], 200);
+        }
 
-
-public function updatePassword(Request $request)
-    {
-        $request->validate([
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        $admin = auth('admin')->user();
-        $admin->password = Hash::make($request->password);
-        $admin->save();
-
-        return back()->with('success', 'Password berhasil diperbarui.');
+        return back()->with('success', 'Profil berhasil diperbarui.');
     }
 }

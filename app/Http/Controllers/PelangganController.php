@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artikel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +14,9 @@ class PelangganController extends Controller
     public function landing()
     {
         $pelanggan = Auth::guard('pelanggan')->user();
-        return view('Pelanggan.landing', compact('pelanggan'));
+        $data_artikel = Artikel::latest()->get();
+
+        return view('Pelanggan.landing', compact('pelanggan', 'data_artikel'));
     }
 
     public function updateNama(Request $request)

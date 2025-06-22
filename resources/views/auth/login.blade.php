@@ -9,18 +9,16 @@
 </head>
 <body class="bg-[#f3f8ec] min-h-screen flex items-center justify-center">
     <div class="flex w-full max-w-6xl mx-auto bg-white shadow-lg rounded-3xl overflow-hidden">
-        <!-- Left side (Image) -->
         <div class="w-1/2 bg-[#f3f8ec] relative hidden md:block">
             <img src="{{ asset('img/logo_scoopy.png') }}" alt="Driver Illustration" class="absolute bottom-0 left-0 w-full max-h-[500px] object-contain">
             <img src="{{ asset('img/logo_komposin.png') }}" alt="Logo" class="absolute top-5 left-5 w-36">
         </div>
 
-        <!-- Right side (Form) -->
         <div class="w-full md:w-1/2 p-10">
-            <h2 class="text-4xl font-bold text-center mb-2">Sign in</h2>
+            <h2 class="text-4xl font-bold text-center mb-2">Login</h2>
             <p class="text-center text-gray-500 mb-6">
                 Tidak punya akun?
-                <a href="{{ route('register') }}" class="text-green-700 font-medium hover:underline">Sign up</a>
+                <a href="{{ route('register') }}" class="text-green-700 font-medium hover:underline">Register</a>
             </p>
 
             @if ($errors->any())
@@ -58,7 +56,7 @@
                         <button type="button" onclick="togglePassword()" class="absolute right-4 top-3 text-gray-400">
                             <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
-                                <!-- Default: eye open -->
+
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -72,20 +70,36 @@
                 </div>
 
                 <button type="submit" class="w-full bg-green-800 hover:bg-green-700 text-white py-3 rounded-lg shadow-md">
-                    Sign in
+                    Login
                 </button>
             </form>
 
         @if ($errors->has('email') && $errors->first('email') === 'Akun Anda belum berlangganan.')
             <script>
+                const nama = @json(session('nama') ?? 'Nama tidak tersedia');
+                const email = @json(session('email') ?? 'Email tidak tersedia');
+                const alamat = @json(session('alamat') ?? 'Alamat tidak tersedia');
+                const pesan = encodeURIComponent(
+                    `Halo Admin, saya belum bisa login karena belum berlangganan:\n\nNama: ${nama}\nEmail: ${email}\nAlamat: ${alamat}\n\nMohon dibantu ya!`
+                );
+                const waLink = `https://wa.me/6282257161599?text=${pesan}`;
+
                 Swal.fire({
                     icon: 'warning',
                     title: 'Tidak Bisa Login',
-                    text: '{{ $errors->first("email") }}',
-                    confirmButtonColor: '#3085d6',
+                    text: 'Akun Anda belum berlangganan.',
+                    confirmButtonText: 'Langganan',
+                    confirmButtonColor: '#16a34a',
+                    showCloseButton: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = waLink;
+                    }
                 });
             </script>
         @endif
+
+
 
         </div>
     </div>

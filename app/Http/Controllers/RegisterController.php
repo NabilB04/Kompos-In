@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pelanggan;
+use App\Models\PengambilanSampah;
+use App\Models\TempatSampah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+
 
 class RegisterController extends Controller
 {
@@ -22,6 +25,7 @@ class RegisterController extends Controller
     /**
      * Tangani registrasi
      */
+
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
@@ -31,16 +35,9 @@ class RegisterController extends Controller
         $nama   = $request->name;
         $email  = $request->email;
         $alamat = $request->address;
-
-        $nomorAdmin = '6282257161599';
-
-        $pesan = urlencode("Halo Admin, saya baru saja mendaftar:\n\nNama: $nama\nEmail: $email\nAlamat: $alamat\n\nMohon dibantu ya!");
-
-        $linkWA = "https://wa.me/$nomorAdmin?text=$pesan";
-
-        return redirect()->away($linkWA);
         return redirect()->route('login')->with('success', 'Akun berhasil dibuat! Silakan login.');
     }
+
 
     /**
      * Validator input pengguna
@@ -61,12 +58,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return Pelanggan::create([
+        // Buat pelanggan baru
+        $pelanggan = Pelanggan::create([
             'nama_lengkap'  => $data['name'],
             'email'         => $data['email'],
             'password'      => Hash::make($data['password']),
             'nomor_telepon' => $data['phone'],
             'alamat'        => $data['address'],
+            'status_id'     => 2,
         ]);
+
+        // Tambahkan data tempat_sampah
+        TempatSampah::create([
+            'pelanggan_id' => $pelanggan->pelanggan_id,
+            'status_penuh' => 'kosong',
+        ]);
+
+        PengambilanSampah::create([
+            'pelanggan_id' => $pelanggan->pelanggan_id,
+            'jumlah_ember' => 0,
+        ]);
+
+        return $pelanggan;
     }
 }

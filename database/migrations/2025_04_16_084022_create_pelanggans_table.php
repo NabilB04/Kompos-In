@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('pelanggan_id');
             $table->string('nama_lengkap');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('nomor_telepon', 15)->nullable();
             $table->text('alamat')->nullable();
